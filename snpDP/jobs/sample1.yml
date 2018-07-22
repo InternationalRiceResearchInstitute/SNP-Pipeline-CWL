@@ -5,10 +5,20 @@ reference_fa_in:
 reads1_in:
     -   class: File
         path: ../inputs/reads1_cleaned_1.fq
+    -   class: File
+        path: ../inputs/reads1_cleaned_2.fq
   
 reads2_in:
     -   class: File
         path: ../inputs/reads2_cleaned_1.fq
+    -   class: File
+        path: ../inputs/reads1_cleaned_2.fq
+
+bam_list_in:
+    -   class: File
+        path: ../reads1_cleaned_1_addrep.bam
+    -   class: File
+        path: ../reads1_cleaned_2_addrep.bam
 
 # reference_fa_in:
 #     class: File

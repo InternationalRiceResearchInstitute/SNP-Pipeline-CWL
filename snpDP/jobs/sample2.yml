@@ -1,0 +1,19 @@
+reference_fa_in:
+  class: File
+  path: ../ref.fasta
+
+reads1_in:
+  - class: File
+    path: ../inputs/reads1_cleaned_1.fq
+  - class: File
+    path: ../inputs/reads1_cleaned_2.fq
+  - class: File
+    path: ../inputs/reads1_cleaned_3.fq
+  
+reads2_in:
+  - class: File
+    path: ../inputs/reads2_cleaned_1.fq
+  - class: File
+    path: ../inputs/reads2_cleaned_2.fq
+  - class: File
+    path: ../inputs/reads2_cleaned_3.fq

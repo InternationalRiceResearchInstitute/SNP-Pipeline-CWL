@@ -16,7 +16,7 @@ inputs:
 outputs:
     result:
         type: File
-        outputSource: gatk_htc_gvcf/result
+        outputSource: picard_addrep/result
 steps:
     bwa_mem:
         doc: ALIGNMENT - fq to sam
@@ -38,22 +38,25 @@ steps:
                 valueFrom: $(inputs.sam_in.nameroot)_sorted.bam 
         out: [result]
     
-    picard_fixmateinfo:
-       doc: SAM/BAM PROCESSING - Fix Mate Information
-       run: ../tools/picard-fixmateinfo.cwl
-       in:
-           sorted_in: picard_sortsam/result
-           fixmateinfo_out:
-               valueFrom: $(inputs.sorted_in.nameroot.split("_sorted").slice(0)[0])_fxmt.bam
-        out: [result]
+    #picard_fixmateinfo:
+    #   doc: SAM/BAM PROCESSING - Fix Mate Information
+    #   run: ../tools/picard-fixmateinfo.cwl
+    #   in:
+    #       sorted_in: picard_sortsam/result
+    #       fixmateinfo_out:
+    #           valueFrom: $(inputs.sorted_in.nameroot.split("_sorted").slice(0)[0])_fxmt.bam
+    #    out: [result]
 
     picard_markdup:
         doc: SAM/BAM PROCESSING - Mark Duplicates
         run: ../tools/picard-markdup.cwl
         in:
-            fixmate_in: picard_fixmateinfo/result
+            fixmate_in: picard_sortsam/result
             markdup_out:
-                valueFrom: $(inputs.fixmate_in.nameroot.split("_fxmt").slice(0)[0])_mkdup.bam
+                valueFrom: $(inputs.fixmate_in.nameroot.split("_sorted").slice(0)[0])_mkdup.bam
+            #fixmate_in: picard_fixmateinfo/result
+            #markdup_out:
+            #    valueFrom: $(inputs.fixmate_in.nameroot.split("_fxmt").slice(0)[0])_mkdup.bam
         out: [result]
 
     picard_addrep:
@@ -73,16 +76,6 @@ steps:
                 valueFrom: $(inputs.markdup_in.nameroot.split("_mkdup").slice(0)[0])_sm
         out: [result]
     
-    gatk_htc_gvcf:
-        doc: VARIANT CALLING - Haplotype Caller
-        run: ../tools/gatk-HtC-gvcf.cwl
-        in:
-            addrep_in: picard_addrep/result
-            reference_fa_in: reference_fa_in
-            gvcf_out:
-                valueFrom: $(inputs.addrep_in.nameroot.split("_addrep").slice(0)[0]).g.vcf
-        out: [result]
-
 doc: |
     GVCFs Generation is a workflow that creates the gvcf file and to be merge with other gvcfs through Merge GVCFs workflow file.
 
@@ -99,6 +92,3 @@ doc: |
             --> picard MarkDuplicate
         d. Add Or Replace Read Groups
             --> picard AddOrReplaceReadGroups
-
-    3: VARIANT CALLING
-        GATK v4.0.6.0 --> gatk HaplotypeCaller
