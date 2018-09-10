@@ -28,22 +28,24 @@ After installing the prerequisites tools and technologies, you may now use these
 	`$ git clone https://github.com/jevasQ/internship-project`
 
 2. Go to the directory of the pipeline you want to use.
-a. For using the current SNP Pipeline
+
+	a. For using the current SNP Pipeline
 	
 	`$ cd internship-project/current-SNP-DP`
 
-b. For using the new SNP Pipeline
+	b. For using the new SNP Pipeline
 	
 	`$ cd internship-project/new-SNP-DP`
 
 3. Edit the “input-job” YAML file inside the folder “jobs” and input the directory of your input reference fasta and reads files.
 
 4. Open terminal then invoke the following.
-a. Using the current-SNP-DP for the analysis
+
+	a. Using the current-SNP-DP for the analysis
 	
 	`$ cwltool workflows/currentSNPDP.cwl jobs/input-job.yml`
 
-b. Using the new-SNP-DP for the analysis
+	b. Using the new-SNP-DP for the analysis	
 	
 	`$ cwltool workflows/newSNPDP.cwl jobs/input-job.yml`
 	
